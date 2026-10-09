@@ -1,0 +1,25 @@
+{
+  "name": "siam-paint-pos",
+  "version": "1.0.0",
+  "description": "সিয়াম পেইন্ট এন্ড ফার্নিশ কোম্পানি - Web POS & Inventory System",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "pos",
+    "inventory",
+    "paint-shop",
+    "json-database",
+    "thermal-printer"
+  ],
+  "author": "Siam Paint & Furnish Co.",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}

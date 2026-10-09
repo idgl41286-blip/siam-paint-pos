@@ -1,0 +1,20 @@
+[
+  {
+    "id": "usr_admin",
+    "username": "admin",
+    "password": "admin123",
+    "name": "মোঃ শওকত আলী (মালিক/এডমিন)",
+    "role": "admin",
+    "avatar": "👨‍💼",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "id": "usr_cashier",
+    "username": "cashier",
+    "password": "1234",
+    "name": "সাকিব / শাউন (ক্যাশিয়ার)",
+    "role": "cashier",
+    "avatar": "🧑‍💻",
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+]

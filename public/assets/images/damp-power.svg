@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="dampBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="50%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#075985"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="20" fill="#e0f2fe"/>
+  <!-- Heavy Can Container -->
+  <rect x="52" y="58" width="96" height="105" rx="16" fill="url(#dampBlue)"/>
+  <!-- Yellow Cap & Top -->
+  <rect x="82" y="38" width="36" height="22" rx="4" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+  <rect x="74" y="56" width="52" height="10" rx="3" fill="#0c4a6e"/>
+  <!-- Handle on Side -->
+  <path d="M52 75 C35 75 35 110 52 110" fill="none" stroke="#0284c7" stroke-width="8" stroke-linecap="round"/>
+  <!-- Label with Shield -->
+  <rect x="58" y="85" width="84" height="60" rx="8" fill="#ffffff" opacity="0.95"/>
+  <path d="M100 90 L114 96 L114 110 Q100 120 100 122 Q100 120 86 110 L86 96 Z" fill="#0284c7"/>
+  <path d="M100 95 Q104 102 104 106 A4 4 0 0 1 96 106 Q96 102 100 95 Z" fill="#ffffff"/>
+  <text x="100" y="132" text-anchor="middle" fill="#0369a1" font-family="sans-serif" font-size="10" font-weight="900">DAMP POWER</text>
+  <text x="100" y="142" text-anchor="middle" fill="#0284c7" font-family="sans-serif" font-size="7" font-weight="bold">WATERPROOF</text>
+</svg>

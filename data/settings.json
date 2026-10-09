@@ -1,0 +1,23 @@
+{
+  "companyNameBn": "সিয়াম পেইন্টস্ এন্ড বার্নিশ কোং",
+  "companyNameEn": "Siam Paints & Varnish Co.",
+  "proprietorBn": "মোঃ শওকত আলী",
+  "tinVatNumber": "০০৫১০৪১৫৪-০৯০১",
+  "addressBn": "যশোর-খুলনা-বেনাপোল রোড, মোবারককাঠি, যশোর।",
+  "phone": "০১৬৪১-৫১৮৬৬২ (সাকিব), ০১৬৪১-৫১৮৬৫৯ (শাউন), ০১৯২৪-৬৪৪৬০১ / ০১৭১৮-৯২৭৩০৪ (শওকত)",
+  "phoneShort": "০১৬৪১-৫১৮৬৬২, ০১৬৪১-৫১৮৬৫৯, ০১৯২৪-৬৪৪৬০১, ০১৭১৮-৯২৭৩০৪",
+  "email": "siampaint.jashore@gmail.com",
+  "currencyBn": "৳",
+  "currencyEn": "Tk",
+  "thermalPrinter": {
+    "paperWidth": "58mm",
+    "headerTitle": "সিয়াম পেইন্টস্ এন্ড বার্নিশ কোং",
+    "footerMessageBn": "ধন্যবাদ, আবার আসবেন!",
+    "footerSubBn": "বিক্রিত মাল ফেরত নেওয়া হয় না, তবে পরিবর্তনের সুযোগ রয়েছে।",
+    "showBarcode": true,
+    "showQr": false,
+    "autoPrintOnSale": false
+  },
+  "vatPercent": 0,
+  "allowCashierDiscount": true
+}

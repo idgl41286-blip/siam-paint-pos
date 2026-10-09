@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="amberGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="tealPaint" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="40" fill="url(#bgGlow)"/>
+  
+  <!-- Outer Paint Splash Ring -->
+  <circle cx="200" cy="180" r="130" fill="none" stroke="url(#amberGold)" stroke-width="4" stroke-dasharray="12 8" opacity="0.4"/>
+  
+  <!-- Paint Bucket Shape -->
+  <g filter="url(#shadow)">
+    <!-- Bucket Body -->
+    <path d="M120 140 L140 280 Q200 305 260 280 L280 140 Z" fill="#334155" stroke="#475569" stroke-width="4"/>
+    <!-- Bucket Rim -->
+    <ellipse cx="200" cy="140" rx="80" ry="24" fill="#64748b" stroke="#94a3b8" stroke-width="3"/>
+    <!-- Wet Paint Surface -->
+    <ellipse cx="200" cy="142" rx="72" ry="20" fill="url(#tealPaint)"/>
+    
+    <!-- Paint Drips -->
+    <path d="M150 142 Q155 180 160 200 Q165 210 170 200 Q175 160 180 142 Z" fill="url(#tealPaint)"/>
+    <path d="M220 142 Q225 190 230 220 Q235 230 240 220 Q245 170 250 142 Z" fill="url(#amberGold)"/>
+    
+    <!-- Bucket Handle -->
+    <path d="M115 140 Q200 60 285 140" fill="none" stroke="#94a3b8" stroke-width="6" stroke-linecap="round"/>
+    
+    <!-- Wooden Polish Brush Crossing -->
+    <g transform="translate(190, 80) rotate(35)">
+      <!-- Brush Handle -->
+      <rect x="0" y="0" width="16" height="120" rx="6" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+      <!-- Metal Ferrule -->
+      <rect x="-4" y="100" width="24" height="30" rx="3" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+      <!-- Bristles -->
+      <path d="M-6 130 Q8 165 22 130 Z" fill="url(#amberGold)"/>
+    </g>
+  </g>
+  
+  <!-- Brand Text -->
+  <text x="200" y="340" text-anchor="middle" fill="#f8fafc" font-family="'Hind Siliguri', 'Outfit', sans-serif" font-size="24" font-weight="bold" letter-spacing="1">
+    SIAM PAINT &amp; FURNISH
+  </text>
+  <text x="200" y="370" text-anchor="middle" fill="#fbbf24" font-family="'Hind Siliguri', sans-serif" font-size="16" font-weight="600">
+    সিয়াম পেইন্ট এন্ড ফার্নিশ কোম্পানি
+  </text>
+</svg>

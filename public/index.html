@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>সিয়াম পেইন্টস্ এন্ড বার্নিশ কোং | Web POS & Inventory</title>
+  <meta name="description" content="সিয়াম পেইন্টস্ এন্ড বার্নিশ কোং - ওয়েব পিওএস, ইনভেন্টরি ও ৫৮ মিমি থার্মাল রসিদ প্রিন্টিং সফটওয়্যার।">
+  <link rel="icon" type="image/svg+xml" href="/assets/images/logo.svg">
+  
+  <!-- Google Fonts: Hind Siliguri, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- =======================================================
+         SIDEBAR NAVIGATION
+         ======================================================= -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div>
+        <!-- Brand Header -->
+        <div class="brand-header">
+          <img src="/assets/images/logo.svg" alt="Siam Paints Logo" class="brand-logo-img">
+          <div class="brand-info">
+            <h1>সিয়াম পেইন্টস্</h1>
+            <span>এন্ড বার্নিশ কোং</span>
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav>
+          <ul class="nav-links">
+            <li class="nav-item">
+              <button id="navPosBtn" class="active" onclick="switchView('pos')">
+                <span class="nav-icon">🛒</span>
+                <span>সেলস কাউন্টার (POS)</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="navInventoryBtn" onclick="switchView('inventory')">
+                <span class="nav-icon">📦</span>
+                <span>প্রোডাক্ট ও স্টক</span>
+                <span class="nav-badge" id="lowStockBadge" style="display:none;">0</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="navUnitsBtn" onclick="switchView('units')">
+                <span class="nav-icon">⚖️</span>
+                <span>ডাইনামিক ইউনিট</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="navSalesBtn" onclick="switchView('sales')">
+                <span class="nav-icon">🧾</span>
+                <span>বিক্রয় মেমো তালিকা</span>
+              </button>
+            </li>
+            <li class="nav-item admin-only">
+              <button id="navReportsBtn" onclick="switchView('reports')">
+                <span class="nav-icon">📊</span>
+                <span>লাভ-লোকসান রিপোর্ট</span>
+              </button>
+            </li>
+            <li class="nav-item admin-only">
+              <button id="navBackupBtn" onclick="switchView('backup')">
+                <span class="nav-icon">💾</span>
+                <span>JSON ব্যাকআপ</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="navSettingsBtn" onclick="switchView('settings')">
+                <span class="nav-icon">⚙️</span>
+                <span>দোকান সেটিংস</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- User Profile Card in Sidebar -->
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="currentUserAvatar">👨‍💼</div>
+          <div class="user-details">
+            <div class="user-name" id="currentUserName">মোঃ শওকত আলী</div>
+            <div class="user-role-badge" id="currentUserRoleBadge">ADMIN (মালিক)</div>
+          </div>
+        </div>
+        <div class="user-actions">
+          <button class="btn-icon-switch" onclick="openLoginModal()" title="রোল পরিবর্তন">
+            <span>🔄</span>
+            <span>ইউজার সুইচ</span>
+          </button>
+          <button class="btn-icon-switch" onclick="toggleTheme()" title="থিম পরিবর্তন">
+            <span id="themeIcon">🌓</span>
+            <span>থিম</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =======================================================
+         MAIN WORKSPACE
+         ======================================================= -->
+    <main class="app-main">
+      
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="top-bar-title">
+          <h2 id="currentViewTitle">🛒 সেলস কাউন্টার ও বিলিং</h2>
+        </div>
+        <div class="top-bar-actions">
+          <div class="db-status-pill" title="JSON ডাটাবেজ সচল">
+            <span class="pulse-dot"></span>
+            <span>JSON DB সক্রিয়</span>
+          </div>
+          <div class="live-clock-badge" id="liveClockDisplay">00:00:00</div>
+        </div>
+      </header>
+
+      <!-- View Sections -->
+      <div class="views-viewport">
+        
+        <!-- VIEW 1: POS SALES COUNTER -->
+        <section class="view-section active" id="view-pos">
+          <div class="pos-layout">
+            
+            <!-- Left: Products Catalog -->
+            <div class="pos-catalog-panel">
+              <div class="pos-filter-bar">
+                <div class="pos-search-wrapper">
+                  <span class="pos-search-icon">🔍</span>
+                  <input type="text" id="posSearchInput" class="pos-search-input" placeholder="প্রোডাক্টের নাম লিখুন (যেমন: ব্ল্যাক অক্সাইড, তারপিন, রজন, গালা, কাপড়)..." oninput="handlePosSearch(this.value)">
+                </div>
+
+                <!-- Unit Filter Bar (কেজি, লিটার, গজ, আউন্স, পিস/ক্যান ফিল্টার) -->
+                <div class="category-pills-scroll" id="posUnitFilterPills">
+                  <!-- Injected via JavaScript (যেমন: সকল, কেজি, লিটার, গজ, আউন্স, পিস) -->
+                </div>
+
+                <!-- Category Filter Bar -->
+                <div class="category-pills-scroll" id="posCategoryPills">
+                  <!-- Category Pills -->
+                </div>
+              </div>
+
+              <div class="products-grid" id="posProductsGrid">
+                <!-- Products Grid -->
+              </div>
+            </div>
+
+            <!-- Right: POS Cart & Checkout -->
+            <div class="pos-cart-panel">
+              <div class="cart-header">
+                <div class="cart-header-title">
+                  <span>🛒 বিক্রির তালিকা</span>
+                  <span class="cart-count-badge" id="cartItemCount">0 টি আইটেম</span>
+                </div>
+                <button class="btn-clear-cart" onclick="clearCart()">
+                  <span>🗑️</span>
+                  <span>সব মুছুন</span>
+                </button>
+              </div>
+
+              <!-- Cart Item List -->
+              <div class="cart-items-list" id="cartItemsList">
+                <div class="cart-empty-state">
+                  <div class="cart-empty-icon">🎨</div>
+                  <p style="font-weight:600;">কার্ট খালি রয়েছে</p>
+                  <p style="font-size:0.8rem;">বামের প্রোডাক্টে ক্লিক করে বিক্রির তালিকায় যোগ করুন।</p>
+                </div>
+              </div>
+
+              <!-- Cart Summary & Checkout -->
+              <div class="cart-checkout-footer">
+                <div class="customer-quick-inputs">
+                  <input type="text" id="posCustomerName" class="input-pos-sm" placeholder="ক্রেতার নাম (ঐচ্ছিক)">
+                  <input type="text" id="posCustomerPhone" class="input-pos-sm" placeholder="মোবাইল নম্বর (ঐচ্ছিক)">
+                </div>
+
+                <div class="payment-methods-grid">
+                  <button class="payment-method-btn active" data-method="cash" onclick="selectPaymentMethod('cash')">
+                    <span>💵</span>
+                    <span>নগদ ক্যাশ</span>
+                  </button>
+                  <button class="payment-method-btn" data-method="bkash" onclick="selectPaymentMethod('bkash')">
+                    <span>📱</span>
+                    <span>বিকাশ</span>
+                  </button>
+                  <button class="payment-method-btn" data-method="nagad" onclick="selectPaymentMethod('nagad')">
+                    <span>📲</span>
+                    <span>নগদ</span>
+                  </button>
+                  <button class="payment-method-btn" data-method="due" onclick="selectPaymentMethod('due')">
+                    <span>📝</span>
+                    <span>বাকি</span>
+                  </button>
+                </div>
+
+                <div class="cart-calculation-rows">
+                  <div class="calc-row">
+                    <span>সাবটোটাল:</span>
+                    <span id="cartSubtotalText">৳ 0.00</span>
+                  </div>
+                  <div class="calc-row">
+                    <span>ছাড় / ডিসকাউন্ট:</span>
+                    <div class="calc-row-inputs">
+                      <input type="number" id="cartDiscountInput" class="calc-inline-input" value="0" min="0" oninput="updateCartTotals()">
+                    </div>
+                  </div>
+                  <div class="calc-row grand-total">
+                    <span>সর্বমোট বিল:</span>
+                    <span class="val" id="cartGrandTotalText">৳ 0.00</span>
+                  </div>
+                  <div class="calc-row" style="margin-top:0.15rem;">
+                    <span>জমা প্রদান:</span>
+                    <div class="calc-row-inputs">
+                      <input type="number" id="cartPaidInput" class="calc-inline-input" value="0" min="0" oninput="calculateChange()">
+                    </div>
+                  </div>
+                  <div class="calc-row" style="font-size:0.8rem;">
+                    <span id="cartChangeLabel">ফেরত টাকা:</span>
+                    <span id="cartChangeText" style="font-weight:700; color:var(--brand-success);">৳ 0.00</span>
+                  </div>
+                </div>
+
+                <button id="btnCompleteSale" class="btn-checkout-print" onclick="processSaleAndPrint()" disabled>
+                  <span>🖨️</span>
+                  <span>বিক্রি সম্পন্ন ও ৫৮ মিমি রসিদ প্রিন্ট</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        <!-- VIEW 2: PRODUCT & INVENTORY MANAGEMENT -->
+        <section class="view-section" id="view-inventory">
+          <div class="admin-content-layout">
+            <div class="section-header-row">
+              <div class="section-title">
+                <h3>📦 প্রোডাক্ট ও স্টক ম্যানেজমেন্ট</h3>
+                <p>দোকানের রং, তারপিন, বার্নিশ, গালা ও মেটেরিয়ালের তালিকা ও স্টক নিয়ন্ত্রণ করুন।</p>
+              </div>
+              <div style="display:flex; gap:0.5rem;">
+                <button class="btn-secondary admin-only" onclick="openStockModal()">
+                  <span>⚡</span>
+                  <span>দ্রুত স্টক আপডেট</span>
+                </button>
+                <button class="btn-primary admin-only" onclick="openProductModal()">
+                  <span>➕</span>
+                  <span>নতুন প্রোডাক্ট যোগ করুন</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="data-card-table">
+              <div class="table-toolbar">
+                <div class="table-search-box">
+                  <span>🔍</span>
+                  <input type="text" id="inventorySearchInput" placeholder="প্রোডাক্ট খুঁজুন..." oninput="renderInventoryTable(this.value)">
+                </div>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                  <label style="font-size:0.82rem; color:var(--text-muted);">ক্যাটাগরি:</label>
+                  <select id="inventoryCategoryFilter" class="input-pos-sm" style="width:auto;" onchange="renderInventoryTable()">
+                    <option value="all">সকল ক্যাটাগরি</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="overflow-x:auto;">
+                <table class="custom-table" id="inventoryTable">
+                  <thead>
+                    <tr>
+                      <th>ছবি ও নাম</th>
+                      <th>ক্যাটাগরি</th>
+                      <th>ইউনিট</th>
+                      <th class="admin-only">কেনা দাম (Cost)</th>
+                      <th>ফিক্সড বিক্রি দাম</th>
+                      <th>বর্তমান স্টক</th>
+                      <th>স্ট্যাটাস</th>
+                      <th class="admin-only" style="text-align:right;">অ্যাকশন</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventoryTableBody">
+                    <!-- Table Body -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 3: DYNAMIC UNITS -->
+        <section class="view-section" id="view-units">
+          <div class="admin-content-layout">
+            <div class="section-header-row">
+              <div class="section-title">
+                <h3>⚖️ ডাইনামিক ইউনিট সেটিংস</h3>
+                <p>কেজি, গ্রাম, লিটার, মিলি, গজ, আউন্স, পিস, ক্যান ইত্যাদি ইউনিট পরিচালনা করুন।</p>
+              </div>
+              <button class="btn-primary admin-only" onclick="openUnitModal()">
+                <span>➕</span>
+                <span>নতুন ইউনিট যোগ করুন</span>
+              </button>
+            </div>
+
+            <div class="data-card-table">
+              <div style="overflow-x:auto;">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>ইউনিটের নাম</th>
+                      <th>প্রতীক (Symbol)</th>
+                      <th>পরিমাপের ধরণ</th>
+                      <th>সাব-ইউনিট অনুপাত</th>
+                      <th>ভগ্নাংশ হিসাব</th>
+                      <th>কুইক শর্টকাট</th>
+                      <th class="admin-only" style="text-align:right;">অ্যাকশন</th>
+                    </tr>
+                  </thead>
+                  <tbody id="unitsTableBody">
+                    <!-- Units Table -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 4: SALES & INVOICE HISTORY -->
+        <section class="view-section" id="view-sales">
+          <div class="admin-content-layout">
+            <div class="section-header-row">
+              <div class="section-title">
+                <h3>🧾 বিক্রয় মেমো ও ইনভয়েস হিস্ট্রি</h3>
+                <p>পূর্ববর্তী সমস্ত বিক্রয়ের মেমো তালিকা এবং ৫৮ মিমি রসিদ রিপ্রিন্ট।</p>
+              </div>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <input type="date" id="salesDateFilter" class="input-pos-sm" onchange="loadSalesHistory()">
+                <button class="btn-secondary" onclick="document.getElementById('salesDateFilter').value=''; loadSalesHistory();">
+                  <span>🔄 রিসেট</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="data-card-table">
+              <div class="table-toolbar">
+                <div class="table-search-box">
+                  <span>🔍</span>
+                  <input type="text" id="salesSearchInput" placeholder="ইনভয়েস বা কাস্টমার খুঁজুন..." oninput="filterSalesTable(this.value)">
+                </div>
+                <div id="salesCountText" style="font-size:0.82rem; color:var(--text-muted);">মোট ০ টি ইনভয়েস</div>
+              </div>
+
+              <div style="overflow-x:auto;">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>ইনভয়েস নং</th>
+                      <th>তারিখ ও সময়</th>
+                      <th>ক্রেতার নাম ও ফোন</th>
+                      <th>আইটেম</th>
+                      <th>পেমেন্ট মাধ্যম</th>
+                      <th>সর্বমোট বিল</th>
+                      <th class="admin-only">লাভ (Profit)</th>
+                      <th style="text-align:right;">৫৮ মিমি রসিদ</th>
+                    </tr>
+                  </thead>
+                  <tbody id="salesTableBody">
+                    <!-- Sales Table -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 5: FINANCIAL & PROFIT ANALYTICS (ADMIN) -->
+        <section class="view-section" id="view-reports">
+          <div class="admin-content-layout">
+            <div class="section-header-row">
+              <div class="section-title">
+                <h3>📊 লাভ-লোকসান ও আর্থিক রিপোর্ট</h3>
+                <p>দোকানের মোট বিক্রি, মালামাল কেনা খরচ (COGS), নিট লাভ এবং বর্তমান স্টক ভ্যালু।</p>
+              </div>
+            </div>
+
+            <div class="stats-cards-grid">
+              <div class="stat-card">
+                <div class="stat-icon-wrapper" style="color:var(--brand-primary);">💰</div>
+                <div class="stat-info">
+                  <span>সর্বমোট বিক্রি</span>
+                  <h4 id="statTotalRevenue">৳ 0</h4>
+                  <div class="stat-sub" id="statTodayRevenue">আজকের বিক্রি: ৳ ০</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon-wrapper" style="color:var(--brand-success);">📈</div>
+                <div class="stat-info">
+                  <span>সর্বমোট নিট লাভ</span>
+                  <h4 id="statTotalProfit" style="color:var(--brand-success);">৳ 0</h4>
+                  <div class="stat-sub" id="statProfitMargin">মার্জিন: ০%</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon-wrapper" style="color:var(--brand-danger);">🏷️</div>
+                <div class="stat-info">
+                  <span>বিক্রিত মালের কেনাদাম (COGS)</span>
+                  <h4 id="statTotalCost">৳ 0</h4>
+                  <div class="stat-sub" id="statTodayProfit">আজকের লাভ: ৳ ০</div>
+                </div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-icon-wrapper" style="color:var(--brand-accent);">🏭</div>
+                <div class="stat-info">
+                  <span>বর্তমান গুদাম স্টক মূল্য</span>
+                  <h4 id="statTotalStockValue">৳ 0</h4>
+                  <div class="stat-sub" id="statPotentialProfit">সম্ভাব্য লাভ: ৳ ০</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analytics-split-grid">
+              <div class="chart-card">
+                <div class="chart-card-header">
+                  <h4>🏆 শীর্ষ বিক্রিত প্রোডাক্ট</h4>
+                </div>
+                <div class="progress-bar-list" id="topProductsList">
+                  <!-- Top Products -->
+                </div>
+              </div>
+
+              <div class="chart-card">
+                <div class="chart-card-header">
+                  <h4>🎨 ক্যাটাগরি ভিত্তিক বিক্রয়</h4>
+                </div>
+                <div class="progress-bar-list" id="categorySalesList">
+                  <!-- Category Sales -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- VIEW 6: JSON BACKUP -->
+        <section class="view-section" id="view-backup">
+          <div class="admin-content-layout">
+            <div class="section-header-row">
+              <div class="section-title">
+                <h3>💾 JSON ডাটাবেজ ব্যাকআপ ও রিস্টোর</h3>
+                <p>এক ক্লিকে সমস্ত ডাটাবেজ JSON ফাইল ডাউনলোড ও ব্যাকআপ সংরক্ষণ করুন।</p>
+              </div>
+            </div>
+
+            <div class="backup-cards-grid">
+              
+              <div class="backup-card">
+                <div class="backup-card-header">
+                  <span class="backup-icon">📥</span>
+                  <div>
+                    <h4 style="font-weight:700;">সম্পূর্ণ ডাটাবেজ ব্যাকআপ</h4>
+                    <p style="font-size:0.82rem; color:var(--text-muted);">প্রোডাক্ট, স্টক, ইনভয়েস ও সেটিংস একত্রিত JSON ফাইল হিসেবে ডাউনলোড করুন।</p>
+                  </div>
+                </div>
+
+                <div class="backup-tables-chips">
+                  <div class="table-chip">📄 products.json</div>
+                  <div class="table-chip">📄 sales.json</div>
+                  <div class="table-chip">📄 units.json</div>
+                  <div class="table-chip">📄 categories.json</div>
+                  <div class="table-chip">📄 settings.json</div>
+                </div>
+
+                <a href="/api/backup/export" class="btn-primary" style="text-decoration:none; justify-content:center;" download>
+                  <span>⚡ ১-ক্লিকে সম্পূর্ণ JSON ব্যাকআপ ডাউনলোড</span>
+                </a>
+              </div>
+
+              <div class="backup-card">
+                <div class="backup-card-header">
+                  <span class="backup-icon">📑</span>
+                  <div>
+                    <h4 style="font-weight:700;">নির্দিষ্ট ফাইল ডাউনলোড</h4>
+                    <p style="font-size:0.82rem; color:var(--text-muted);">প্রয়োজন অনুযায়ী আলাদা ফাইল ডাউনলোড করুন।</p>
+                  </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:0.4rem;">
+                  <a href="/api/backup/raw/products" class="btn-secondary" style="text-decoration:none; justify-content:space-between;" download>
+                    <span>📦 প্রোডাক্ট ডাটা (products.json)</span>
+                    <span>⬇️</span>
+                  </a>
+                  <a href="/api/backup/raw/sales" class="btn-secondary" style="text-decoration:none; justify-content:space-between;" download>
+                    <span>🧾 বিক্রয় মেমো (sales.json)</span>
+                    <span>⬇️</span>
+                  </a>
+                </div>
+              </div>
+
+              <div class="backup-card">
+                <div class="backup-card-header">
+                  <span class="backup-icon">📤</span>
+                  <div>
+                    <h4 style="font-weight:700;">ব্যাকআপ রিস্টোর</h4>
+                    <p style="font-size:0.82rem; color:var(--text-muted);">ডাউনলোড করা JSON ব্যাকআপ ফাইল থেকে ডাটা পুনরুদ্ধার করুন।</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input type="file" id="restoreFileInput" accept=".json" class="input-pos-sm">
+                </div>
+
+                <button class="btn-secondary" onclick="handleRestoreDatabase()">
+                  <span>🔄 সিলেক্ট করা ফাইল থেকে রিস্টোর করুন</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 7: STORE SETTINGS -->
+        <section class="view-section" id="view-settings">
+          <div class="admin-content-layout">
+            <div class="section-header-row">
+              <div class="section-title">
+                <h3>⚙️ প্রতিষ্ঠান ও ৫৮ মিমি থার্মাল প্রিন্টার সেটিংস</h3>
+                <p>মেমোর নাম, ঠিকানা, করদাতা সনাক্তকরণ সংখ্যা (TIN) ও মোবাইল নম্বর কাস্টমাইজ করুন।</p>
+              </div>
+              <button class="btn-primary" onclick="saveStoreSettings()">
+                <span>💾 সেটিংস সংরক্ষণ করুন</span>
+              </button>
+            </div>
+
+            <div class="backup-cards-grid">
+              <div class="backup-card">
+                <h4 style="border-bottom:1px solid var(--border-color); padding-bottom:0.4rem; font-weight:700;">🏢 দোকানের তথ্য</h4>
+                <div class="form-group">
+                  <label>কোম্পানির নাম:</label>
+                  <input type="text" id="settingCompanyNameBn" value="সিয়াম পেইন্টস্ এন্ড বার্নিশ কোং">
+                </div>
+                <div class="form-group">
+                  <label>প্রোপ্রাইটর:</label>
+                  <input type="text" id="settingProprietorBn" value="মোঃ শওকত আলী">
+                </div>
+                <div class="form-group">
+                  <label>করদাতা সনাক্তকরণ সংখ্যা (TIN/VAT):</label>
+                  <input type="text" id="settingTinVat" value="০০৫১০৪১৫৪-০৯০১">
+                </div>
+                <div class="form-group">
+                  <label>ঠিকানা:</label>
+                  <input type="text" id="settingAddressBn" value="যশোর-খুলনা-বেনাপোল রোড, মোবারককাঠি, যশোর।">
+                </div>
+                <div class="form-group">
+                  <label>মোবাইল নম্বরসমূহ:</label>
+                  <input type="text" id="settingPhone" value="০১৬৪১-৫১৮৬৬২ (সাকিব), ০১৬৪১-৫১৮৬৫৯ (শাউন), ০১৯২৪-৬৪৪৬০১ / ০১৭১৮-৯২৭৩০৪ (শওকত)">
+                </div>
+              </div>
+
+              <div class="backup-card">
+                <h4 style="border-bottom:1px solid var(--border-color); padding-bottom:0.4rem; font-weight:700;">🖨️ ৫৮ মিমি রসিদ সেটিংস</h4>
+                <div class="form-group">
+                  <label>মেমোর ফুটার বার্তা:</label>
+                  <input type="text" id="settingFooterMessageBn" value="ধন্যবাদ, আবার আসবেন!">
+                </div>
+                <div class="form-group">
+                  <label>শর্তাবলী বার্তা:</label>
+                  <input type="text" id="settingFooterSubBn" value="বিক্রিত মাল ফেরত নেওয়া হয় না, তবে পরিবর্তনের সুযোগ রয়েছে।">
+                </div>
+                <div class="form-group">
+                  <label>কারেন্সি প্রতীক:</label>
+                  <input type="text" id="settingCurrencyBn" value="৳">
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- =======================================================
+       MODAL 1: ADD / EDIT PRODUCT (SIMPLE & CLEAN FORM)
+       ======================================================= -->
+  <div class="modal-backdrop" id="productModalBackdrop">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="productModalTitle">➕ নতুন প্রোডাক্ট যোগ করুন</h3>
+        <button class="btn-close-modal" onclick="closeProductModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editProductId">
+        
+        <!-- Product Name -->
+        <div class="form-group">
+          <label>প্রোডাক্টের নাম (বাংলা) *:</label>
+          <input type="text" id="modalProdNameBn" placeholder="যেমন: ব্ল্যাক অক্সাইড, রজন, তারপিন, বার্নিশ ইত্যাদি">
+        </div>
+
+        <!-- Unit & Category -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+              <label style="margin-bottom:0;">পরিমাপের ইউনিট (Unit) *:</label>
+              <button type="button" id="btnToggleNewUnit" onclick="toggleNewUnitInput()" style="background:none; border:none; color:var(--brand-accent); font-size:0.75rem; font-weight:600; cursor:pointer; text-decoration:underline;">➕ নতুন লিখুন</button>
+            </div>
+            <div id="unitSelectWrapper">
+              <select id="modalProdUnit" onchange="onUnitSelectChange(this.value)">
+                <!-- Dynamically loaded units -->
+              </select>
+            </div>
+            <div id="unitNewInputWrapper" style="display:none; margin-top:0.35rem;">
+              <div style="display:flex; gap:0.4rem;">
+                <input type="text" id="modalProdNewUnitName" placeholder="ইউনিটের নাম (যেমন: কেজি, লিটার, বস্তা, কার্টন)..." class="input-pos-sm" style="flex:1;">
+                <button type="button" onclick="cancelNewUnitInput()" style="padding:0.3rem 0.6rem; font-size:0.75rem; background:rgba(255,255,255,0.08); border:1px solid var(--border-color); color:var(--text-muted); border-radius:var(--radius-sm); cursor:pointer;">✕ ড্রপডাউন</button>
+              </div>
+            </div>
+            <div style="font-size:0.71rem; color:var(--text-muted); margin-top:0.25rem;">💡 বস্তা হিসেবে কেনাবেচা হলে <strong>"বস্তা (২৫ কেজি)"</strong> সিলেক্ট করুন। তখন খুচরা কেজি বা আধা বস্তায় অটো হিসাব হবে।</div>
+          </div>
+          <div class="form-group">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+              <label style="margin-bottom:0;">ক্যাটাগরি *:</label>
+              <button type="button" id="btnToggleNewCat" onclick="toggleNewCategoryInput()" style="background:none; border:none; color:var(--brand-accent); font-size:0.75rem; font-weight:600; cursor:pointer; text-decoration:underline;">➕ নতুন লিখুন</button>
+            </div>
+            <div id="categorySelectWrapper">
+              <select id="modalProdCategory" onchange="onCategorySelectChange(this.value)">
+                <!-- Dynamically loaded categories -->
+              </select>
+            </div>
+            <div id="categoryNewInputWrapper" style="display:none; margin-top:0.35rem;">
+              <div style="display:flex; gap:0.4rem;">
+                <input type="text" id="modalProdNewCategoryName" placeholder="ক্যাটাগরির নাম (যেমন: অক্সাইড, বার্নিশ, তারপিন)..." class="input-pos-sm" style="flex:1;">
+                <button type="button" onclick="cancelNewCategoryInput()" style="padding:0.3rem 0.6rem; font-size:0.75rem; background:rgba(255,255,255,0.08); border:1px solid var(--border-color); color:var(--text-muted); border-radius:var(--radius-sm); cursor:pointer;">✕ ড্রপডাউন</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing: Cost Price & Fixed Selling Price -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>কেনা দাম (Cost Price - কেবল এডমিন) *:</label>
+            <input type="number" id="modalProdCostPrice" min="0" step="any" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label>ফিক্সড বিক্রি দাম (Selling Price) *:</label>
+            <input type="number" id="modalProdSellingPrice" min="0" step="any" placeholder="0.00">
+          </div>
+        </div>
+
+        <!-- Current Stock & Min Alert -->
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>বর্তমান স্টক পরিমাণ *:</label>
+            <input type="number" id="modalProdStock" min="0" step="any" placeholder="যেমন: 50.0">
+          </div>
+          <div class="form-group">
+            <label>লো স্টক অ্যালার্ট সীমা:</label>
+            <input type="number" id="modalProdMinAlert" min="1" value="10">
+          </div>
+        </div>
+
+        <!-- Image selection / File Upload (Real Image Upload from PC/Device) -->
+        <div class="form-group">
+          <label>প্রোডাক্টের আসল ছবি আপলোড করুন (ডিভাইস/মোবাইল/পিসি থেকে):</label>
+          <div style="display:flex; gap:0.65rem; align-items:center;">
+            <input type="file" id="modalProdImageFile" accept="image/*" class="input-pos-sm" style="flex:1;" onchange="handleImageFileSelect(this)">
+            <img id="modalProdImagePreview" src="/assets/images/paint-black.svg" alt="Preview" style="width:44px; height:44px; border-radius:6px; background:#fff; object-fit:contain; border:1px solid #cbd5e1; flex-shrink:0;">
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.35rem; flex-wrap:wrap; gap:0.35rem;">
+            <span style="font-size:0.75rem; color:var(--text-muted);">ছবি না দিলে ডিফল্ট আইকন সিলেক্ট করুন:</span>
+            <select id="modalProdImagePreset" class="input-pos-sm" style="width:auto; padding:0.2rem 0.5rem; font-size:0.78rem;" onchange="previewPresetImage(this.value)">
+              <option value="/assets/images/paint-black.svg">🖤 ব্ল্যাক / ডার্ক আইকন</option>
+              <option value="/assets/images/red-oxide.svg">🔴 রেড অক্সাইড / লাল ক্যান</option>
+              <option value="/assets/images/varnish.svg">🪵 বার্নিশ / উড পালিশ</option>
+              <option value="/assets/images/gala.svg">🪓 গালা / রজন / কার্ফা</option>
+              <option value="/assets/images/turpentine.svg">🧪 তারপিন / লিকুইড বোতল</option>
+              <option value="/assets/images/thinner.svg">🛢️ স্প্রীট / N.C থিনার</option>
+              <option value="/assets/images/putty.svg">🧱 চক পাউডার / এলামাটি</option>
+              <option value="/assets/images/roller.svg">🧵 মার্কিন কাপড় / ফেব্রিক</option>
+              <option value="/assets/images/brush.svg">⚙️ ওয়াসার / হার্ডওয়্যার</option>
+              <option value="/assets/images/damp-power.svg">🛡️ ভিক্সল / ড্যাম্প প্রুফ</option>
+              <option value="/assets/images/paint-white.svg">🎨 সাধারণ রঙ আইকন</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Product Code / SKU (Auto or Optional) -->
+        <div class="form-group">
+          <label>প্রোডাক্ট কোড / SKU (ঐচ্ছিক):</label>
+          <input type="text" id="modalProdSku" placeholder="যেমন: SPF-01 (ফাঁকা রাখলে অটো হবে)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeProductModal()">বাতিল</button>
+        <button class="btn-primary" onclick="saveProductForm()">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: QUICK STOCK ADJUSTMENT -->
+  <div class="modal-backdrop" id="stockModalBackdrop">
+    <div class="modal-box" style="max-width:440px;">
+      <div class="modal-header">
+        <h3>⚡ দ্রুত স্টক আপডেট</h3>
+        <button class="btn-close-modal" onclick="closeStockModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>প্রোডাক্ট নির্বাচন করুন:</label>
+          <select id="quickStockProductId" onchange="updateCurrentStockDisplay()">
+            <!-- Products -->
+          </select>
+        </div>
+        <div style="background:var(--bg-surface); padding:0.65rem; border-radius:6px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">বর্তমান স্টক:</span>
+          <span id="quickStockCurrentDisplay" style="font-family:var(--font-mono); font-size:1.1rem; font-weight:700; color:var(--brand-accent);">0</span>
+        </div>
+        <div class="form-group">
+          <label>যোগ করার পরিমাণ (+ বা -):</label>
+          <input type="number" id="quickStockDelta" step="any" placeholder="যেমন: +50 অথবা -10">
+        </div>
+        <div class="form-group">
+          <label>নোট / কারণ:</label>
+          <input type="text" id="quickStockReason" placeholder="নতুন মালামাল ক্রয় / ফ্যাক্টরি চালনা...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeStockModal()">বাতিল</button>
+        <button class="btn-primary" onclick="submitQuickStock()">স্টক আপডেট করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: DYNAMIC UNIT -->
+  <div class="modal-backdrop" id="unitModalBackdrop">
+    <div class="modal-box" style="max-width:460px;">
+      <div class="modal-header">
+        <h3>⚖️ নতুন ইউনিট যোগ করুন</h3>
+        <button class="btn-close-modal" onclick="closeUnitModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>ইউনিটের নাম (বাংলা) *:</label>
+            <input type="text" id="unitNameBn" placeholder="যেমন: ড্রাম / গ্যালন">
+          </div>
+          <div class="form-group">
+            <label>প্রতীক (বাংলা) *:</label>
+            <input type="text" id="unitSymbolBn" placeholder="যেমন: ড্রাম">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>পরিমাপের ধরণ:</label>
+            <select id="unitType">
+              <option value="weight">ওজন (Weight)</option>
+              <option value="volume">তরল (Volume)</option>
+              <option value="count">গণনাযোগ্য (Count/Pcs)</option>
+              <option value="length">দৈর্ঘ্য (Length/Yard)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>দশমিক ইনপুট অনুমোদন:</label>
+            <select id="unitAllowDecimals">
+              <option value="true">হ্যাঁ (যেমন ১.৫, ০.২৫)</option>
+              <option value="false">না (পূর্ণ সংখ্যা ১, ২, ৩)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeUnitModal()">বাতিল</button>
+        <button class="btn-primary" onclick="saveUnitForm()">ইউনিট যোগ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: 58MM THERMAL RECEIPT PREVIEW & PRINT -->
+  <div class="modal-backdrop" id="receiptModalBackdrop">
+    <div class="modal-box receipt-modal-box">
+      <div class="modal-header">
+        <h3>🖨️ ৫৮ মিমি থার্মাল রসিদ</h3>
+        <button class="btn-close-modal" onclick="closeReceiptModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="receipt-preview-container">
+          <div class="thermal-receipt-paper" id="receiptRenderContent">
+            <!-- 58mm Receipt Output -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content:space-between;">
+        <button class="btn-secondary" onclick="closeReceiptModal()">বন্ধ করুন</button>
+        <button class="btn-primary" onclick="triggerDirectPrint()">
+          <span>🖨️ রসিদ প্রিন্ট (Print 58mm)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: ROLE & USER LOGIN -->
+  <div class="modal-backdrop" id="loginModalBackdrop">
+    <div class="modal-box" style="max-width:420px;">
+      <div class="modal-header">
+        <h3>🔄 ইউজার ও রোল পরিবর্তন</h3>
+        <button class="btn-close-modal" onclick="closeLoginModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">
+          সহজে সুইচ করার জন্য ক্লিক করুন:
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <button class="user-profile-card" onclick="quickLogin('admin', 'admin123')" style="cursor:pointer; width:100%;">
+            <div class="user-avatar">👨‍💼</div>
+            <div class="user-details" style="text-align:left;">
+              <div class="user-name">মোঃ শওকত আলী (মালিক/এডমিন)</div>
+              <div class="user-role-badge">এডমিন রোল (পূর্ণ নিয়ন্ত্রণ ও লাভ-ক্ষতি হিসাব)</div>
+            </div>
+            <span>➡️</span>
+          </button>
+
+          <button class="user-profile-card" onclick="quickLogin('cashier', '1234')" style="cursor:pointer; width:100%;">
+            <div class="user-avatar">🧑‍💻</div>
+            <div class="user-details" style="text-align:left;">
+              <div class="user-name">সাকিব / শাউন (ক্যাশিয়ার)</div>
+              <div class="user-role-badge">ক্যাশিয়ার রোল (শুধুমাত্র সেলস ও মেমো প্রিন্ট)</div>
+            </div>
+            <span>➡️</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeLoginModal()">বন্ধ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="thermalPrintSection" style="display:none;"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/js/audio.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+[
+  {
+    "id": "kg",
+    "nameBn": "কেজি (Kg)",
+    "nameEn": "Kilogram",
+    "symbolBn": "কেজি",
+    "symbolEn": "kg",
+    "type": "weight",
+    "subUnitBn": "গ্রাম",
+    "subUnitEn": "g",
+    "subRatio": 1000,
+    "allowDecimals": true,
+    "quickAmounts": [
+      0.1,
+      0.25,
+      0.5,
+      1,
+      2,
+      5,
+      10
+    ],
+    "description": "অক্সাইড, গালা, চক পাউডার, রজন, মোম ইত্যাদি"
+  },
+  {
+    "id": "gram",
+    "nameBn": "গ্রাম (Gram)",
+    "nameEn": "Gram",
+    "symbolBn": "গ্রাম",
+    "symbolEn": "g",
+    "type": "weight",
+    "allowDecimals": false,
+    "quickAmounts": [
+      50,
+      100,
+      250,
+      500
+    ],
+    "description": "খুচরা শুকনো রঙ ও পিগমেন্ট"
+  },
+  {
+    "id": "litre",
+    "nameBn": "লিটার (Litre)",
+    "nameEn": "Litre",
+    "symbolBn": "লি.",
+    "symbolEn": "L",
+    "type": "volume",
+    "subUnitBn": "মি.লি.",
+    "subUnitEn": "ml",
+    "subRatio": 1000,
+    "allowDecimals": true,
+    "quickAmounts": [
+      0.1,
+      0.25,
+      0.5,
+      1,
+      1.5,
+      2,
+      5
+    ],
+    "description": "বার্নিশ, স্প্রীট, তারপিন, N.C থিনার ইত্যাদি"
+  },
+  {
+    "id": "ml",
+    "nameBn": "মিলি (ML / Millilitre)",
+    "nameEn": "Millilitre",
+    "symbolBn": "মি.লি.",
+    "symbolEn": "ml",
+    "type": "volume",
+    "allowDecimals": false,
+    "quickAmounts": [
+      100,
+      250,
+      500
+    ],
+    "description": "ছোট তারপিন বা স্পিরিটের বোতল"
+  },
+  {
+    "id": "yard",
+    "nameBn": "গজ (Yard)",
+    "nameEn": "Yard",
+    "symbolBn": "গজ",
+    "symbolEn": "Yd",
+    "type": "length",
+    "allowDecimals": true,
+    "quickAmounts": [
+      0.5,
+      1,
+      2,
+      3,
+      5,
+      10
+    ],
+    "description": "মার্কিন কাপড় ও ফেব্রিক"
+  },
+  {
+    "id": "ounce",
+    "nameBn": "আউন্স (Ounce / Oz)",
+    "nameEn": "Ounce",
+    "symbolBn": "আউন্স",
+    "symbolEn": "oz",
+    "type": "count",
+    "allowDecimals": false,
+    "quickAmounts": [
+      1,
+      2,
+      4,
+      6,
+      12
+    ],
+    "description": "রং ২ আউন্স / ৪ আউন্স শিশি"
+  },
+  {
+    "id": "pcs",
+    "nameBn": "পিস (Pcs / Unit)",
+    "nameEn": "Pieces",
+    "symbolBn": "পিস",
+    "symbolEn": "Pcs",
+    "type": "count",
+    "allowDecimals": false,
+    "quickAmounts": [
+      1,
+      2,
+      3,
+      5,
+      10,
+      20
+    ],
+    "description": "ওয়াসার, ফ্রেম চক, খবনি রং, কার্ফা"
+  },
+  {
+    "id": "can",
+    "nameBn": "ক্যান (Can / Drum)",
+    "nameEn": "Can",
+    "symbolBn": "ক্যান",
+    "symbolEn": "Can",
+    "type": "count",
+    "allowDecimals": false,
+    "quickAmounts": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "description": "ভিক্সল / ড্যাম্প ও সিল করা ক্যান"
+  },
+  {
+    "id": "sack_25kg",
+    "nameBn": "বস্তা (২৫ কেজি)",
+    "nameEn": "Sack (25 Kg)",
+    "symbolBn": "বস্তা",
+    "symbolEn": "Sack",
+    "type": "bulk_weight",
+    "subUnitBn": "কেজি",
+    "subUnitEn": "kg",
+    "subRatio": 25,
+    "allowDecimals": true,
+    "quickAmounts": [
+      0.2,
+      0.4,
+      0.5,
+      1,
+      2,
+      5
+    ],
+    "description": "চক পাউডার, এলামাটি, জিপসাম ২৫ কেজির বস্তা (১ বস্তা = ২৫ কেজি)"
+  },
+  {
+    "id": "sack_50kg",
+    "nameBn": "বস্তা (৫০ কেজি)",
+    "nameEn": "Sack (50 Kg)",
+    "symbolBn": "বস্তা",
+    "symbolEn": "Sack",
+    "type": "bulk_weight",
+    "subUnitBn": "কেজি",
+    "subUnitEn": "kg",
+    "subRatio": 50,
+    "allowDecimals": true,
+    "quickAmounts": [
+      0.1,
+      0.2,
+      0.5,
+      1,
+      2
+    ],
+    "description": "৫০ কেজির বড় বস্তা (১ বস্তা = ৫০ কেজি)"
+  },
+  {
+    "id": "sack",
+    "nameBn": "বস্তা (সাধারণ)",
+    "nameEn": "Sack (General)",
+    "symbolBn": "বস্তা",
+    "symbolEn": "Sack",
+    "type": "bulk_weight",
+    "subUnitBn": "কেজি",
+    "subUnitEn": "kg",
+    "subRatio": 25,
+    "allowDecimals": true,
+    "quickAmounts": [
+      0.2,
+      0.5,
+      1,
+      2,
+      5
+    ],
+    "description": "সাধারণ বস্তা (খুচরা ও পাইকারি বিক্রি)"
+  }
+]

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="rollerCylinder" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="20" fill="#f0f9ff"/>
+  <!-- Roller Cylinder -->
+  <rect x="45" y="45" width="110" height="36" rx="8" fill="url(#rollerCylinder)"/>
+  <!-- Texture Fur -->
+  <line x1="55" y1="45" x2="55" y2="81" stroke="#bae6fd" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="85" y1="45" x2="85" y2="81" stroke="#bae6fd" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="115" y1="45" x2="115" y2="81" stroke="#bae6fd" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="145" y1="45" x2="145" y2="81" stroke="#bae6fd" stroke-width="2" stroke-dasharray="4 4"/>
+  <!-- Metal Frame -->
+  <path d="M155 63 L168 63 L168 115 L100 115 L100 135" fill="none" stroke="#64748b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Handle -->
+  <rect x="92" y="135" width="16" height="45" rx="5" fill="#dc2626"/>
+  <!-- Grip Ribs -->
+  <line x1="92" y1="148" x2="108" y2="148" stroke="#991b1b" stroke-width="2"/>
+  <line x1="92" y1="158" x2="108" y2="158" stroke="#991b1b" stroke-width="2"/>
+  <line x1="92" y1="168" x2="108" y2="168" stroke="#991b1b" stroke-width="2"/>
+</svg>

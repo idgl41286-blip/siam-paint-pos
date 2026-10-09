@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="glassTurp" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#34d399" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="20" fill="#ecfdf5"/>
+  <!-- Bottle Neck -->
+  <rect x="88" y="38" width="24" height="24" rx="3" fill="#10b981"/>
+  <rect x="84" y="32" width="32" height="10" rx="3" fill="#047857"/>
+  <!-- Bottle Body -->
+  <path d="M72 65 C72 62 88 56 100 56 C112 56 128 62 128 65 L135 155 Q135 168 122 168 L78 168 Q65 168 65 155 Z" fill="url(#glassTurp)"/>
+  <!-- Label -->
+  <rect x="74" y="90" width="52" height="50" rx="4" fill="#ffffff" opacity="0.95"/>
+  <text x="100" y="107" text-anchor="middle" fill="#047857" font-family="sans-serif" font-size="9" font-weight="900">PURE</text>
+  <text x="100" y="120" text-anchor="middle" fill="#065f46" font-family="sans-serif" font-size="8" font-weight="bold">TURPENTINE</text>
+  <text x="100" y="132" text-anchor="middle" fill="#059669" font-family="sans-serif" font-size="7" font-weight="bold">★ OIL ★</text>
+</svg>
